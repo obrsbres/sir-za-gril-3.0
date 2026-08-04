@@ -1,0 +1,72 @@
+import React from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import styled from 'styled-components';
+
+import Header from './Header';
+import Sidebar from './Sidebar';
+import SidebarShowButton from './SidebarShowButton';
+
+import useScreenWidth from '../hooks/useScreenWidth';
+
+const StyledContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 8% 1fr;
+  gap: 2px;
+  justify-items: start;
+  align-items: start;
+  overflow: auto;
+  height: 100vh;
+  width: 100vw;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
+`;
+
+const StyledAppLayout = styled.div`
+  grid-row: 2/2;
+  position: relative;
+  display: flex;
+  height: fill-available;
+  width: fill-available;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+`;
+
+const StyledMain = styled.main`
+  background-color: var(--color-grey-50);
+  position: relative;
+  width: fill-available;
+  height: auto;
+  overflow-y: auto;
+`;
+
+function AppLayout() {
+  const pageSize = useScreenWidth();
+  return (
+    <StyledContainer>
+      <Header />
+      <StyledAppLayout $pageSize={pageSize}>
+        <Sidebar /> <SidebarShowButton />
+        <StyledMain>
+          <Outlet />
+        </StyledMain>
+      </StyledAppLayout>
+    </StyledContainer>
+  );
+}
+
+export default AppLayout;
